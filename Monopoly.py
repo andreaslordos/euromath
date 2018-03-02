@@ -1,7 +1,6 @@
 from random import randint
 from random import shuffle
 import matplotlib.pyplot as plt; plt.rcdefaults()
-import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -19,14 +18,11 @@ positionList=None
 
 def rankPlaces(positionList,board):
     total_moves=len(positionList)
-    #print("Compiling data from "+str(len(positionList))+" visits..")
     visiting_tracker=[]
     for x in range(40):
         visiting_tracker.append((positionList.count(x),x))
-    #print(visiting_tracker)
     temp_list=sorted(visiting_tracker)
     temp_list.reverse()
-    #print(temp_list)
     x=1
     for thing in temp_list:
         print(str(x)+": "+str(board[thing[-1]])+" was visited "+str(thing[0])+" times. That's "+str(round((int(thing[0])/len(positionList)*100),3))+"% of the time")
@@ -41,8 +37,6 @@ def rankPlaces(positionList,board):
         a[element[-1]]=round((int(element[0])/total_moves*100),3)
     yList=a
     xList=board
-    print(xList)
-    print(yList)
     plt.bar(dd,yList,label='Bars1',color='red')
     special=[0,2,4,7,10,17,20,22,30,33,36,38]
     xlabels=[]
@@ -110,7 +104,6 @@ railroads=["Reading Railroad","Pennsylvania Railroad","B. & O. Railroad","Short 
 shuffle(chance_cards)
 shuffle(community_cards)
 
-#limit1=input("Number of times you want to pass 'GO'")
 passed_go=0
 position=0
 
@@ -128,34 +121,23 @@ w=0
 try:
     while z>w:
         w+=1
-        #print()
         previousPosition=position
-        #print(previousPosition)
         dieRoll=randint(1,6)+randint(1,6)
         dieRollList.append(dieRoll) #keeps track of die rolls
         position=position+dieRoll #updates the position
         if position>39:
             position=position-40
         currentSquare=board[position]
-        '''
-        print("Currently on: "+currentSquare)
-        print("Just rolled a: "+str(dieRoll))
-        print("Therefore I am on position "+str(position))
-        '''
         if ' '.join(currentSquare.split()[0:-1])=="Chance" or ' '.join(currentSquare.split()[0:-1])=="Community Chest":
             breakCondition=False
             while breakCondition==False:
                 breakCondition=True
                 if ' '.join(currentSquare.split()[0:-1])=="Community Chest":
-                    #print("Reading a community chest card..")
                     card=community_cards[0]
-                    #print("Card: "+str(card))
                     community_cards.pop(0)
                     community_cards.append(card)
                 else:
-                    #print("Reading a chance card..")
                     card=chance_cards[0]
-                    #print("Card: "+str(card))
                     chance_cards.pop(0)
                     chance_cards.append(card)        
                 if card[0]!="-":
@@ -172,7 +154,6 @@ try:
                         if ' '.join(board[position].split()[0:-1])=="Community Chest" or ' '.join(board[position].split()[0:-1])=="Chance":
                             breakCondition=False
                 currentSquare=board[position]
-                #print("Moved to "+board[position])
 
         elif ' '.join(currentSquare.split()[0:-1])=="Go To Jail":
             position=traverseBoard(["Jail"],position,board)
@@ -180,4 +161,3 @@ try:
 except:
     rankPlaces(positionList,board)
 rankPlaces(positionList,board)
-    
